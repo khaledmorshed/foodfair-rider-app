@@ -1,0 +1,84 @@
+{
+  "project_info": {
+    "project_number": "1038513457039",
+    "project_id": "foodfair-seller-app",
+    "storage_bucket": "foodfair-seller-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1038513457039:android:fd14184ee6f8e26e4dadfa",
+        "android_client_info": {
+          "package_name": "com.example.foodfair_seller_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1038513457039-3040c9pnkhvtfa3o10s73j7gktuf4itd.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.foodfair_seller_app",
+            "certificate_hash": "fcbce0e47ee89f738fab92deb8b33fc37f0ab6b1"
+          }
+        },
+        {
+          "client_id": "1038513457039-q8td6d0ngviakes3iog2ou3m6kln3tjv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAwBEDBkvQjEDIjCNfag_W3ib63IOamGxc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1038513457039-q8td6d0ngviakes3iog2ou3m6kln3tjv.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1038513457039:android:98b737a80b05adbf4dadfa",
+        "android_client_info": {
+          "package_name": "com.khaled_morshed.foodfair_rider_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1038513457039-raif4vpbekfer8821mkem9fki1fa145a.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.khaled_morshed.foodfair_rider_app",
+            "certificate_hash": "fcbce0e47ee89f738fab92deb8b33fc37f0ab6b1"
+          }
+        },
+        {
+          "client_id": "1038513457039-q8td6d0ngviakes3iog2ou3m6kln3tjv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAwBEDBkvQjEDIjCNfag_W3ib63IOamGxc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1038513457039-q8td6d0ngviakes3iog2ou3m6kln3tjv.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
