@@ -1,7 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../splashScreen/splash_screen.dart';
+import 'screens/splash_screen.dart';
 import 'global/global_instance_or_variable.dart';
 
 Future<void> main() async {

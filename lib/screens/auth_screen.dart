@@ -3,7 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import '../exceptions/loading_dialog.dart';
 import '../presentation/color_manager.dart';
-import '../riderHomeScreen/rider_home_screen.dart';
+import 'rider_home_screen.dart';
 import '../widgets/container_decoration.dart';
 import '../widgets/custom_button.dart';
 import 'registration_screen.dart';
