@@ -43,7 +43,18 @@ dependencies:
   geolocator:
   geocoding:
   fluttertoast:
-  shared_preferences:  
+  shared_preferences:
+
+  carousel_slider:
+  flutter_staggered_grid_view: ^0.4.1
+
+  connectivity: ^3.0.6
+  provider:
+  http:
+  number_inc_dec: ^0.8.0
+  url_launcher:
+  cached_network_image: ^3.2.0
+  intl:
 
 dev_dependencies:
   flutter_test:

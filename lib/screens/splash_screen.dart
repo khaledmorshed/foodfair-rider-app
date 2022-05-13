@@ -2,9 +2,9 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 
-import '../authentication/auth_screen.dart';
+import 'auth_screen.dart';
 import '../global/global_instance_or_variable.dart';
-import '../riderHomeScreen/rider_home_screen.dart';
+import 'rider_home_screen.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);
