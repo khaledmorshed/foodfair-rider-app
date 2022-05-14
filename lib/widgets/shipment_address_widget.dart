@@ -1,7 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+
+import 'package:foodfair_rider_app/global/current_location.dart';
 import 'package:foodfair_rider_app/global/global_instance_or_variable.dart';
+import 'package:foodfair_rider_app/screens/parcel_picking_screen.dart';
 
 import '../models/address.dart';
 import '../presentation/color_manager.dart';
@@ -10,11 +13,17 @@ import '../screens/rider_home_screen.dart';
 class ShipmentAddressWidget extends StatelessWidget {
   final Address? addressModel;
   final String? orderStatus;
+  final String? orderID;
+  final String? sellerUID;
+  final String? orderByUser;
 
   ShipmentAddressWidget({
     Key? key,
     this.addressModel,
     this.orderStatus,
+    this.orderID,
+    this.sellerUID,
+    this.orderByUser,
   }) : super(key: key);
 
   confirmParcelShipment(BuildContext context, String orderID, String sellerID,
@@ -23,10 +32,22 @@ class ShipmentAddressWidget extends StatelessWidget {
       "riderUID": sPref!.getString("uid"),
       "riderName": sPref!.getString("name"),
       "status": "picking",
-      "latitude": "",
-      "longititude": "",
-      "address": "",
+      "latitude": position!.latitude,
+      "longitude": position!.longitude,
+      "address": completeAddress,
     });
+
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (c) => ParcelPickingScreen(
+                  purchaserID: purchaserID,
+                  purchaserAddress: addressModel!.fullAddress,
+                  purchaserLatitude: addressModel!.latitude,
+                  purchaserLongitude: addressModel!.longitude,
+                  sellerID: sellerID,
+                  orderID: orderID,
+                )));
   }
 
   @override
@@ -156,8 +177,9 @@ class ShipmentAddressWidget extends StatelessWidget {
                     ),
                   ),
                   onPressed: () {
-                    //Navigator.push(context,
-                    //    MaterialPageRoute(builder: (c) => RiderHomeScreen()));
+                    RiderLocation uLocation = RiderLocation();
+                    uLocation.getCurrentLocation();
+                    confirmParcelShipment(context, orderID!, sellerUID!, orderByUser!);
                   },
                 ),
               ),
