@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import '../global/current_location.dart';
 import 'auth_screen.dart';
@@ -5,6 +6,7 @@ import '../global/global_instance_or_variable.dart';
 import '../presentation/color_manager.dart';
 import '../widgets/container_decoration.dart';
 import 'new_order_screen.dart';
+import 'not_yet_delivered_screen.dart';
 import 'parcel_in_progress_screen.dart';
 
 class RiderHomeScreen extends StatefulWidget {
@@ -53,11 +55,13 @@ class _RiderHomeScreenState extends State<RiderHomeScreen> {
             }
             if (index == 1) {
               //Parcels in Progress
-              Navigator.push(
-                  context, MaterialPageRoute(builder: (c) => ParcelInProgessScreen()));
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (c) => ParcelInProgessScreen()));
             }
             if (index == 2) {
               //Not Yet Delivered
+             Navigator.push(context,
+                  MaterialPageRoute(builder: (c) => NotYetDeliveredScreen())); 
 
             }
             if (index == 3) {
@@ -99,11 +103,36 @@ class _RiderHomeScreenState extends State<RiderHomeScreen> {
     );
   }
 
-  //don't know why this is for(it is in shipment_address_widget.dart)
+  getParcelDeliveryAmount() {
+    FirebaseFirestore.instance
+        .collection("perDeliveryCharge")
+        .doc("SMKM1128")
+        .get()
+        .then((snap) {
+      perParcelDeliveryAmount = snap.data()!["amount"].toString();
+    });
+  }
+
+  //rider previous earnigs
+  getRiderPreviousEarnigs() {
+    FirebaseFirestore.instance
+        .collection("riders")
+        .doc(sPref!.getString("uid"))
+        .get()
+        .then((snap) {
+      previousRiderEarnigs = snap.data()!["earnings"].toString();
+    });
+  }
+
   @override
   void initState() {
+    //it is for shipment_address_widget.dart
+    //when rider will run app then it will take the location of rider
     RiderLocation uLocation = RiderLocation();
     uLocation.getCurrentLocation();
+
+    getParcelDeliveryAmount();
+    getRiderPreviousEarnigs();
     super.initState();
   }
 

@@ -48,34 +48,47 @@ class _ParcelPickingScreenState extends State<ParcelPickingScreen> {
     getSellerData();
   }
 
-  confirmParcelHasBeenPicked(orderId, sellerId, purchaserId, purchaserAddress, purchaserLatitude, purchaserLongitude)
-  {
-    FirebaseFirestore.instance
-        .collection("orders")
-        .doc(orderId).update({
+  confirmParcelHasBeenPickedFromSeller(orderId, sellerId, purchaserId,
+      purchaserAddress, purchaserLatitude, purchaserLongitude) {
+    FirebaseFirestore.instance.collection("orders").doc(orderId).update({
       "status": "delivering",
-      "address": completeAddress,
-      "lat": position!.latitude,
-      "lng": position!.longitude,
+      "riderCurrentAddress": completeAddress,
+      "latitude": position!.latitude,
+      "longitude": position!.longitude,
     });
 
-    Navigator.push(context, MaterialPageRoute(builder: (c)=> ParcelDeliveringScreen(
-      purchaserId: purchaserId,
-      purchaserAddress: purchaserAddress,
-      purchaserLatitude: purchaserLatitude,
-      purchaserLongitude: purchaserLongitude,
-      sellerId: sellerId,
-      orderId: orderId,
-    )));
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (c) => ParcelDeliveringScreen(
+                  purchaserId: purchaserId,
+                  purchaserAddress: purchaserAddress,
+                  purchaserLatitude: purchaserLatitude,
+                  purchaserLongitude: purchaserLongitude,
+                  sellerId: sellerId,
+                  orderId: orderId,
+                )));
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(title: Text("parcel pickig screen")),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
+          const Text(
+            "Congratulation. You got a parcel",
+            style: TextStyle(
+              // fontFamily: "Signatra",
+              fontSize: 18,
+              letterSpacing: 2,
+            ),
+          ),
+          const SizedBox(
+            height: 20,
+          ),
           Image.asset(
             "assets/images/confirm1.png",
             width: 350,
@@ -107,9 +120,9 @@ class _ParcelPickingScreenState extends State<ParcelPickingScreen> {
                     Text(
                       "Show Cafe/Restaurant Location",
                       style: TextStyle(
-                        fontFamily: "Signatra",
+                        //fontFamily: "Signatra",
                         fontSize: 18,
-                        letterSpacing: 2,
+                        //letterSpacing: 2,
                       ),
                     ),
                   ],
@@ -130,13 +143,13 @@ class _ParcelPickingScreenState extends State<ParcelPickingScreen> {
                   uLocation.getCurrentLocation();
 
                   //confirmed - that rider has picked parcel from seller
-                   confirmParcelHasBeenPicked(
-                      widget.orderID,
-                      widget.sellerID,
-                      widget.purchaserID,
-                      widget.purchaserAddress,
-                      widget.purchaserLatitude,
-                      widget.purchaserLongitude,
+                  confirmParcelHasBeenPickedFromSeller(
+                    widget.orderID,
+                    widget.sellerID,
+                    widget.purchaserID,
+                    widget.purchaserAddress,
+                    widget.purchaserLatitude,
+                    widget.purchaserLongitude,
                   );
                 },
                 child: Container(
@@ -151,11 +164,11 @@ class _ParcelPickingScreenState extends State<ParcelPickingScreen> {
                     stops: [0.0, 1.0],
                     tileMode: TileMode.clamp,
                   )),
-                  width: MediaQuery.of(context).size.width - 90,
+                  width: MediaQuery.of(context).size.width - 10,
                   height: 50,
                   child: const Center(
                     child: Text(
-                      "Order has been Picked - Confirmed",
+                      "Order has been Picked from seller- Confirmed",
                       style: TextStyle(color: Colors.white, fontSize: 15.0),
                     ),
                   ),
@@ -166,6 +179,5 @@ class _ParcelPickingScreenState extends State<ParcelPickingScreen> {
         ],
       ),
     );
-  
   }
 }

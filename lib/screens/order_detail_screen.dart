@@ -6,7 +6,7 @@ import '../exceptions/progress_bar.dart';
 import '../global/global_instance_or_variable.dart';
 import '../models/address.dart';
 import '../widgets/order_status_babber.dart';
-import '../widgets/shipment_address_widget.dart';
+import '../widgets/for_picking_widget.dart';
 
 class OrderDetailScreen extends StatefulWidget {
   final String? orderID;
@@ -121,7 +121,7 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                                   "addressID"]) /*specific address with specific order*/ .get(),
                           builder: (c, snapshot) {
                             return snapshot.hasData
-                                ? ShipmentAddressWidget(
+                                ? ForPickingWidget(
                                     addressModel: Address.fromJson(
                                         snapshot.data!.data()!
                                             as Map<String, dynamic>),

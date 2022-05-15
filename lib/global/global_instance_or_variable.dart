@@ -6,6 +6,12 @@ import 'package:shared_preferences/shared_preferences.dart';
 SharedPreferences? sPref;
 FirebaseAuth firebaseAuth = FirebaseAuth.instance;
 
-  Position? position;
-  List<Placemark>? placeMarks;
-  String completeAddress = "";
+Position? position;
+List<Placemark>? placeMarks;
+String completeAddress = "";
+
+String perParcelDeliveryAmount = "";
+
+String previousSellerEarnigs = "";
+String previousRiderEarnigs = "";
+

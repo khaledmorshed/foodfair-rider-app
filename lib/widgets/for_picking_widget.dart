@@ -10,14 +10,14 @@ import '../models/address.dart';
 import '../presentation/color_manager.dart';
 import '../screens/rider_home_screen.dart';
 
-class ShipmentAddressWidget extends StatelessWidget {
+class ForPickingWidget extends StatelessWidget {
   final Address? addressModel;
   final String? orderStatus;
   final String? orderID;
   final String? sellerUID;
   final String? orderByUser;
 
-  ShipmentAddressWidget({
+  ForPickingWidget({
     Key? key,
     this.addressModel,
     this.orderStatus,
@@ -26,15 +26,15 @@ class ShipmentAddressWidget extends StatelessWidget {
     this.orderByUser,
   }) : super(key: key);
 
-  confirmParcelShipment(BuildContext context, String orderID, String sellerID,
-      String purchaserID) {
+  confirmParcelShipmentFromSeller(BuildContext context, String orderID,
+      String sellerID, String purchaserID) {
     FirebaseFirestore.instance.collection("orders").doc(orderID).update({
       "riderUID": sPref!.getString("uid"),
       "riderName": sPref!.getString("name"),
       "status": "picking",
       "latitude": position!.latitude,
       "longitude": position!.longitude,
-      "address": completeAddress,
+      "riderCurrentAddress": completeAddress,
     });
 
     Navigator.push(
@@ -161,7 +161,7 @@ class ShipmentAddressWidget extends StatelessWidget {
             : Center(
                 child: ElevatedButton(
                   child: const Text(
-                    "Confirm - to deliver this parcel",
+                    "click to pick this parcel",
                     style: TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.bold,
@@ -179,7 +179,8 @@ class ShipmentAddressWidget extends StatelessWidget {
                   onPressed: () {
                     RiderLocation uLocation = RiderLocation();
                     uLocation.getCurrentLocation();
-                    confirmParcelShipment(context, orderID!, sellerUID!, orderByUser!);
+                    confirmParcelShipmentFromSeller(
+                        context, orderID!, sellerUID!, orderByUser!);
                   },
                 ),
               ),
