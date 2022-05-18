@@ -5,14 +5,16 @@ import 'package:intl/intl.dart';
 import '../exceptions/progress_bar.dart';
 import '../global/global_instance_or_variable.dart';
 import '../models/address.dart';
+import '../widgets/for_picking_widget.dart';
 import '../widgets/order_status_babber.dart';
-import '../widgets/shipment_address_widget.dart';
 
 class OrderDetailScreen extends StatefulWidget {
   final String? orderID;
-  const OrderDetailScreen({
+  String? deliveryStatus;
+  OrderDetailScreen({
     Key? key,
     this.orderID,
+    this.deliveryStatus,
   }) : super(key: key);
 
   @override
@@ -107,7 +109,7 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                           thickness: 4,
                         ),
                         orderStatus == "ended"
-                            ? Image.asset("assets/images/success.jp")
+                            ? Image.asset("assets/images/success.jpg")
                             : Image.asset("assets/images/confirm_pick.png"),
                         const Divider(
                           thickness: 4,
@@ -121,7 +123,7 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                                   "addressID"]) /*specific address with specific order*/ .get(),
                           builder: (c, snapshot) {
                             return snapshot.hasData
-                                ? ShipmentAddressWidget(
+                                ? ForPickingWidget(
                                     addressModel: Address.fromJson(
                                         snapshot.data!.data()!
                                             as Map<String, dynamic>),
@@ -129,6 +131,7 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                                     orderID: widget.orderID,
                                     sellerUID: sellerID,
                                     orderByUser: orderByUser,
+                                    deliveryStatus: widget.deliveryStatus,
                                   )
                                 : Center(
                                     child: circularProgress(),

@@ -1,31 +1,31 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:foodfair_rider_app/global/global_instance_or_variable.dart';
 import '../exceptions/progress_bar.dart';
 import '../global/add_item_to_cart.dart';
-import '../global/global_instance_or_variable.dart';
 import '../widgets/my_order_wiget.dart';
 import '../widgets/simple_appbar.dart';
 
-class ParcelInProgessScreen extends StatefulWidget {
-  const ParcelInProgessScreen({Key? key}) : super(key: key);
+class HistoryScreen extends StatefulWidget {
+  const HistoryScreen({Key? key}) : super(key: key);
 
   @override
-  State<ParcelInProgessScreen> createState() => _ParcelInProgessScreenState();
+  State<HistoryScreen> createState() => _HistoryScreenState();
 }
 
-class _ParcelInProgessScreenState extends State<ParcelInProgessScreen> {
+class _HistoryScreenState extends State<HistoryScreen> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        appBar: SimpleAppbar(title: "parcel in progress"),
+        appBar: SimpleAppbar(title: "History"),
         body: StreamBuilder<QuerySnapshot>(
           //here we get the order list of order collection which are normal
           stream: FirebaseFirestore.instance
               .collection("orders")
+              //not all rider just specific rider
               .where("riderUID", isEqualTo: sPref!.getString("uid"))
-              .where("status", isEqualTo: "picking")
+              .where("status", isEqualTo: "ended")
               .snapshots(),
           builder: (c, snapshot) {
             return snapshot.hasData
@@ -35,25 +35,14 @@ class _ParcelInProgessScreenState extends State<ParcelInProgessScreen> {
                       return FutureBuilder<QuerySnapshot>(
                         //here we get the productIDs list inside of order collection for a specific user.
                         future: FirebaseFirestore.instance
-                            .collection(
-                                "items") /*insdie of items colleciton we will search which items are ordered.*/
+                            .collection("items")
                             .where("itemID",
-                                /*if itemID is exist in separateOrdersItemsIDs*/
                                 whereIn: separateItemIDFromOrdersCollection(
-                                    /*snapshot.data.docs[index] == it gives only one order id.
-                                     And inside of a specific order id we get productID list(name as productIDs)
-                                     productIDs = here we have itemID and item quantiy.so separateOrdersItemsIDs()
-                                      by this fuction we will extract just itemID
-                                     */
                                     (snapshot.data!.docs[index].data()!
                                         as Map<String, dynamic>)["productIDs"]))
-                            /*.where("orderBy",
-                                /*orderBy = a specific user*/ whereIn:
-                                    (snapshot.data!.docs[index].data()!
-                                        as Map<String, dynamic>)["uid"])
-                            .orderBy("publishedDate", descending: true)*/
+                            .orderBy("publishedDate", descending: true)
                             . /*instead of snapshot() we use here get(), the reason
-                             for using FutureBuilder*/
+                             for using FutureBuilder*/  
                             get(),
                         builder: (c, snap) {
                           return snap.hasData
@@ -65,6 +54,7 @@ class _ParcelInProgessScreenState extends State<ParcelInProgessScreen> {
                                   //passing order id one by one. we know inside of a specific order
                                   //id we will get many productIDs
                                   orderID: snapshot.data!.docs[index].id,
+                                  deliveryStatus: snapshot.data!.docs[index]["status"],
                                   separateItemsQuantityList:
                                       separateItemQuantityFromOrdersCollection(
                                           (snapshot.data!.docs[index].data()!

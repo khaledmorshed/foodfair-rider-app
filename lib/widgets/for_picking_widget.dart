@@ -8,46 +8,61 @@ import 'package:foodfair_rider_app/screens/parcel_picking_screen.dart';
 
 import '../models/address.dart';
 import '../presentation/color_manager.dart';
+import '../screens/parcel_delivering_screen.dart';
 import '../screens/rider_home_screen.dart';
 
-class ShipmentAddressWidget extends StatelessWidget {
+class ForPickingWidget extends StatelessWidget {
   final Address? addressModel;
   final String? orderStatus;
   final String? orderID;
   final String? sellerUID;
   final String? orderByUser;
+  String? deliveryStatus;
 
-  ShipmentAddressWidget({
+  ForPickingWidget({
     Key? key,
     this.addressModel,
     this.orderStatus,
     this.orderID,
     this.sellerUID,
     this.orderByUser,
+    this.deliveryStatus,
   }) : super(key: key);
 
-  confirmParcelShipment(BuildContext context, String orderID, String sellerID,
-      String purchaserID) {
+  confirmParcelShipmentFromSeller(BuildContext context, String orderID,
+      String sellerID, String purchaserID) {
     FirebaseFirestore.instance.collection("orders").doc(orderID).update({
       "riderUID": sPref!.getString("uid"),
       "riderName": sPref!.getString("name"),
       "status": "picking",
       "latitude": position!.latitude,
       "longitude": position!.longitude,
-      "address": completeAddress,
+      "riderCurrentAddress": completeAddress,
     });
 
-    Navigator.push(
-        context,
-        MaterialPageRoute(
-            builder: (c) => ParcelPickingScreen(
-                  purchaserID: purchaserID,
-                  purchaserAddress: addressModel!.fullAddress,
-                  purchaserLatitude: addressModel!.latitude,
-                  purchaserLongitude: addressModel!.longitude,
-                  sellerID: sellerID,
-                  orderID: orderID,
-                )));
+    deliveryStatus == "delivering"
+        ? Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (c) => ParcelDeliveringScreen(
+                      purchaserId: purchaserID,
+                      purchaserAddress: addressModel!.fullAddress,
+                      purchaserLatitude: addressModel!.latitude,
+                      purchaserLongitude: addressModel!.longitude,
+                      sellerId: sellerID,
+                      orderId: orderID,
+                    )))
+        : Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (c) => ParcelPickingScreen(
+                      purchaserID: purchaserID,
+                      purchaserAddress: addressModel!.fullAddress,
+                      purchaserLatitude: addressModel!.latitude,
+                      purchaserLongitude: addressModel!.longitude,
+                      sellerID: sellerID,
+                      orderID: orderID,
+                    )));
   }
 
   @override
@@ -160,9 +175,11 @@ class ShipmentAddressWidget extends StatelessWidget {
             ? Container()
             : Center(
                 child: ElevatedButton(
-                  child: const Text(
-                    "Confirm - to deliver this parcel",
-                    style: TextStyle(
+                  child: Text(
+                    deliveryStatus == "delivering"
+                        ? "go for delivering"
+                        : "click to pick this parcel",
+                    style: const TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.bold,
                     ),
@@ -179,7 +196,8 @@ class ShipmentAddressWidget extends StatelessWidget {
                   onPressed: () {
                     RiderLocation uLocation = RiderLocation();
                     uLocation.getCurrentLocation();
-                    confirmParcelShipment(context, orderID!, sellerUID!, orderByUser!);
+                    confirmParcelShipmentFromSeller(
+                        context, orderID!, sellerUID!, orderByUser!);
                   },
                 ),
               ),
