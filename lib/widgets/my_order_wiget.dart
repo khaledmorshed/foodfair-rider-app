@@ -5,25 +5,34 @@ import 'package:flutter/material.dart';
 import '../models/items.dart';
 import '../screens/order_detail_screen.dart';
 
-
 class MyOrderWidget extends StatelessWidget {
-  final int? itemCount;
-  final List<DocumentSnapshot>? data;
-  final String? orderID;
-  final List<String>? separateItemsQuantityList;
-  const MyOrderWidget({
+  int? itemCount;
+  List<DocumentSnapshot>? data;
+  String? orderID;
+  List<String>? separateItemsQuantityList;
+  //extra added
+  String? deliveryStatus;
+
+  MyOrderWidget({
     Key? key,
     this.itemCount,
     this.data,
     this.orderID,
     this.separateItemsQuantityList,
+    this.deliveryStatus,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    print(
+        "deliveryStatus = $deliveryStatus + DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDdd");
     return InkWell(
-      onTap: (){
-        Navigator.push(context, MaterialPageRoute(builder: (context)=>OrderDetailScreen(orderID: orderID)));
+      onTap: () {
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => OrderDetailScreen(
+                    orderID: orderID, deliveryStatus: deliveryStatus)));
       },
       child: Container(
         //color: Colors.white10,
@@ -58,14 +67,14 @@ Widget PlacedOrderDesignWidtet(
           imageUrl: itemModel.itemImageUrl!,
           width: 120,
         ),
-        SizedBox(
+        const SizedBox(
           width: 10,
         ),
         Expanded(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              SizedBox(
+              const SizedBox(
                 height: 15,
               ),
               Row(

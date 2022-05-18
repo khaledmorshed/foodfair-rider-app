@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:foodfair_rider_app/global/global_instance_or_variable.dart';
 import '../exceptions/progress_bar.dart';
@@ -7,26 +6,26 @@ import '../global/add_item_to_cart.dart';
 import '../widgets/my_order_wiget.dart';
 import '../widgets/simple_appbar.dart';
 
-class NotYetDeliveredScreen extends StatefulWidget {
-  const NotYetDeliveredScreen({Key? key}) : super(key: key);
+class HistoryScreen extends StatefulWidget {
+  const HistoryScreen({Key? key}) : super(key: key);
 
   @override
-  State<NotYetDeliveredScreen> createState() => _NotYetDeliveredScreenState();
+  State<HistoryScreen> createState() => _HistoryScreenState();
 }
 
-class _NotYetDeliveredScreenState extends State<NotYetDeliveredScreen> {
+class _HistoryScreenState extends State<HistoryScreen> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        appBar: SimpleAppbar(title: "to be delivered"),
+        appBar: SimpleAppbar(title: "History"),
         body: StreamBuilder<QuerySnapshot>(
           //here we get the order list of order collection which are normal
           stream: FirebaseFirestore.instance
               .collection("orders")
               //not all rider just specific rider
               .where("riderUID", isEqualTo: sPref!.getString("uid"))
-              .where("status", isEqualTo: "delivering")
+              .where("status", isEqualTo: "ended")
               .snapshots(),
           builder: (c, snapshot) {
             return snapshot.hasData

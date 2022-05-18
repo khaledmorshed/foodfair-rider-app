@@ -5,6 +5,8 @@ import 'auth_screen.dart';
 import '../global/global_instance_or_variable.dart';
 import '../presentation/color_manager.dart';
 import '../widgets/container_decoration.dart';
+import 'earnings_screen.dart';
+import 'history_screen.dart';
 import 'new_order_screen.dart';
 import 'not_yet_delivered_screen.dart';
 import 'parcel_in_progress_screen.dart';
@@ -66,11 +68,13 @@ class _RiderHomeScreenState extends State<RiderHomeScreen> {
             }
             if (index == 3) {
               //History
-
+               Navigator.push(context,
+                  MaterialPageRoute(builder: (c) => HistoryScreen())); 
             }
             if (index == 4) {
               //Total Earnings
-
+               Navigator.push(context,
+                  MaterialPageRoute(builder: (c) => EarningsScreen()));  
             }
           },
           child: Column(
